@@ -1,0 +1,14 @@
+mode:
+  standalone: true
+
+zap:
+  level: info
+  filename: ./logs/nacos-address.log
+  max_size: 200
+  max_backup: 10
+  max_age: 31
+
+redis:
+  address: 127.0.0.1:6379
+  password: 121f
+  db: 0
