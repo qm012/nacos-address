@@ -1,0 +1,5 @@
+#it is example ip list
+# in standalone mode,`cluster.conf` file exists, read back the data,otherwise it will be read from memory
+192.168.16.101:8847
+192.168.16.102
+192.168.16.103
