@@ -3,14 +3,14 @@ package service
 type Storage interface {
 
 	// get nacos cluster server list
-	get() []string
+	get() ([]string, error)
 
 	// add nacos cluster server list
-	add([]string)
+	add([]string) error
 
 	// delete nacos cluster server list
-	delete([]string)
+	delete([]string) error
 
 	// delete all data
-	deleteAll()
+	deleteAll() error
 }
