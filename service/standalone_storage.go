@@ -14,8 +14,7 @@ type standalone struct {
 	rwLock sync.RWMutex
 }
 
-func newStandalone() *standalone {
-
+func newStandalone() Storage {
 	s := &standalone{
 		maps: make(map[string]interface{}, 20),
 	}
@@ -39,6 +38,7 @@ func (s *standalone) watchFile() {
 			return
 		}
 		s.toMap(ips)
+		global.Log.Info("watch file data:", zap.Strings("ips", s.toSlice()))
 	}
 }
 
@@ -77,16 +77,16 @@ func (s *standalone) get() ([]string, error) {
 
 func (s *standalone) add(ips []string) error {
 
+	for _, v := range ips {
+		if _, ok := s.maps[v]; ok {
+			return errors.New("contains duplicate data")
+		}
+	}
+
 	if file, exist := util.ExistFile(); exist {
 		err := util.WriteClusterConf(file, ips)
 		if err != nil {
 			return err
-		}
-	}
-
-	for _, v := range ips {
-		if _, ok := s.maps[v]; ok {
-			return errors.New("contains duplicate data")
 		}
 	}
 

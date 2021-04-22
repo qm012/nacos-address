@@ -35,6 +35,7 @@ func ReplaceClusterFile(file *os.File, ips []string) error {
 	}
 	return nil
 }
+
 func WriteClusterConf(file *os.File, ips []string) (err error) {
 	defer file.Close()
 	for _, v := range ips {

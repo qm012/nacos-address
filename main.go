@@ -10,6 +10,8 @@ func main() {
 
 	initialize.InitServerConfig()
 	initialize.InitLogger()
+	initialize.InitRedis()
+	initialize.InitStorageMgr()
 
 	r := initialize.Routers()
 
