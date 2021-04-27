@@ -1,6 +1,21 @@
+# single machine running or not
+#   true: standalone running
+#   false: cluster running (must need setting redis config)
 mode:
   standalone: true
 
+# login account: Operation API(create/delete data)
+account:
+  username: nacos2
+  password: nacos
+
+# jwt params
+jwt:
+  secret: mjw2fMRc5G8LatVLdht1lbvU5qWP3NBu
+  # Time unit: Hour
+  expire: 4
+
+# zap log params
 zap:
   level: info
   filename: ./logs/nacos-address.log
@@ -8,7 +23,11 @@ zap:
   max_backup: 10
   max_age: 31
 
-redis:
-  address: 127.0.0.1:6379
-  password: 121f
-  db: 0
+# redis link params,
+#   cluster running,must be setting here
+#   standalone running, If redis is set,it will be stored in redis,otherwise it will be stored in memory
+
+#redis:
+#  address: 17.0.0.1:6379
+#  password: 123456
+#  db: 0

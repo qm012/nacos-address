@@ -4,4 +4,6 @@ type Server struct {
 	Mode
 	Zap
 	Redis
+	Account
+	Jwt
 }

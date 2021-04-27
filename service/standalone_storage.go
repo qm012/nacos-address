@@ -1,10 +1,10 @@
 package service
 
 import (
-	"errors"
 	"github/qm012/nacos-adress/global"
 	"github/qm012/nacos-adress/util"
 	"go.uber.org/zap"
+	"strings"
 	"sync"
 	"time"
 )
@@ -25,20 +25,22 @@ func newStandalone() Storage {
 var _ Storage = &standalone{}
 
 func (s *standalone) watchFile() {
-	file, exist := util.ExistFile()
-	if !exist {
-		return
-	}
+
 	ticker := time.NewTicker(2 * time.Second)
 	for {
+		file, exist := util.ExistFile()
+		if !exist {
+			global.Log.Error("file cluster.conf not exists,use cache mode")
+			return
+		}
 		<-ticker.C
 		ips, err := util.ReadClusterConf(file)
 		if err != nil {
 			global.Log.Error("ticker Watch file failed", zap.String("err", err.Error()))
 			return
 		}
-		s.toMap(ips)
-		global.Log.Info("watch file data:", zap.Strings("ips", s.toSlice()))
+		s.addNewMap(ips)
+		global.Log.Debug("watch file data:", zap.Strings("ips", s.toSlice()))
 	}
 }
 
@@ -50,8 +52,31 @@ func (s *standalone) toSlice() []string {
 	return ips
 }
 
-func (s *standalone) toMap(ips []string) {
+func (s *standalone) addMap(ips []string) {
 	for _, v := range ips {
+		if !util.IsCorrectIpAddress(v) && !strings.Contains(v, ":") {
+			global.Log.Error("read cluster config data is not IP address",
+				zap.String("IP", v))
+			continue
+		}
+		s.maps[v] = true
+	}
+}
+
+func (s *standalone) addNewMap(ips []string) {
+	s.maps = make(map[string]interface{}, 20)
+	for _, v := range ips {
+		if len(v) == 0 {
+			continue
+		}
+		if v == "\b" {
+			continue
+		}
+		if !util.IsCorrectIpAddress(v) && !strings.Contains(v, ":") {
+			global.Log.Error("read cluster config data is not IP address",
+				zap.String("IP", v))
+			continue
+		}
 		s.maps[v] = true
 	}
 }
@@ -66,31 +91,30 @@ func (s *standalone) get() ([]string, error) {
 
 	if file, exist := util.ExistFile(); exist {
 		ips, err := util.ReadClusterConf(file)
-		s.toMap(ips)
-		global.Log.Info("form file redis")
+		s.addNewMap(ips)
 		return ips, err
 	}
 
-	global.Log.Info("form cache redis")
 	return s.toSlice(), nil
 }
 
 func (s *standalone) add(ips []string) error {
 
+	temp := make([]string, 0, len(ips))
 	for _, v := range ips {
-		if _, ok := s.maps[v]; ok {
-			return errors.New("contains duplicate data")
+		if _, ok := s.maps[v]; !ok {
+			temp = append(temp, v)
 		}
 	}
 
 	if file, exist := util.ExistFile(); exist {
-		err := util.WriteClusterConf(file, ips)
+		err := util.WriteClusterConf(file, temp)
 		if err != nil {
 			return err
 		}
 	}
 
-	s.toMap(ips)
+	s.addMap(temp)
 
 	return nil
 }

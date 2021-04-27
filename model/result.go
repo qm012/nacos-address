@@ -21,7 +21,12 @@ func NewSuccessResult() *Result {
 		Message: "success",
 	}
 }
-
+func NewFailedCodeResult(code int, err error) *Result {
+	return &Result{
+		Code:    code,
+		Message: err.Error(),
+	}
+}
 func NewFailedResult(err error) *Result {
 	return &Result{
 		Code:    http.StatusInternalServerError,

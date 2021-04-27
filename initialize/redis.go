@@ -8,8 +8,8 @@ import (
 )
 
 func InitRedis() {
-	if !util.IsSetRedis() {
-		global.Log.Info("redis no setting")
+	if util.GetStorageModel() != util.StorageModelRedis {
+		global.Log.Info("redis no setting,use cache model storage")
 		return
 	}
 	redisConfig := global.Server.Redis

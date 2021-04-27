@@ -12,9 +12,15 @@ import (
 )
 
 func ExistFile() (*os.File, bool) {
-	file, err := os.Open("./cluster.conf")
+	filePath := "./cluster.conf"
+	_, err := os.Lstat(filePath)
 	if err != nil {
-		global.Log.Fatal("open file failed", zap.String("err", err.Error()))
+		global.Log.Debug("file not exists")
+		return nil, os.IsExist(err)
+	}
+	file, err := os.OpenFile(filePath, os.O_RDWR|os.O_APPEND, 0777)
+	if err != nil {
+		global.Log.Error("open file failed", zap.String("err", err.Error()))
 		return nil, false
 	}
 	return file, true
@@ -24,16 +30,22 @@ func ReplaceClusterFile(file *os.File, ips []string) error {
 	defer file.Close()
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
-		global.Log.Fatal("readAll file data failed", zap.String("err", err.Error()))
+		global.Log.Error("readAll file data failed", zap.String("err", err.Error()))
 		return err
 	}
 	str := string(data)
 	for _, v := range ips {
 		if strings.Contains(str, v) {
-			str = strings.ReplaceAll(str, v, "")
+			str = strings.ReplaceAll(str, "\n"+v, "")
 		}
 	}
-	return nil
+
+	if err := os.Truncate("./cluster.conf", 0); err != nil {
+		global.Log.Error("file truncate failed", zap.Error(err))
+		return err
+	}
+	_, err = file.WriteString(str)
+	return err
 }
 
 func WriteClusterConf(file *os.File, ips []string) (err error) {
@@ -42,7 +54,7 @@ func WriteClusterConf(file *os.File, ips []string) (err error) {
 		ip := fmt.Sprintf("%v\n", v)
 		_, err := file.WriteString(ip)
 		if err != nil {
-			global.Log.Fatal("write file failed", zap.String("err", err.Error()))
+			global.Log.Error("write file failed", zap.String("err", err.Error()))
 			return err
 		}
 	}
@@ -59,22 +71,16 @@ func ReadClusterConf(file *os.File) (ips []string, err error) {
 			break
 		}
 		if err != nil {
-			global.Log.Fatal("read line file failed", zap.String("err", err.Error()))
+			global.Log.Error("read line file failed", zap.String("err", err.Error()))
 			return ips, err
 		}
 		instance := strings.TrimSpace(string(line))
-		if strings.HasPrefix(instance, "#") {
+		if strings.HasPrefix(instance, "#") || strings.Contains(instance, ",") {
 			continue
 		}
 		if strings.Contains(instance, "#") {
 			//192.168.71.52:8848 # Instance A
 			instance = strings.TrimSpace(instance[:strings.Index(instance, "#")])
-		}
-		index := strings.Index(instance, ",")
-		if index > 0 {
-			//support the format: ip1:port,ip2:port  # multi inline
-			ips = append(ips, strings.Split(instance, ",")...)
-			continue
 		}
 		if SliceContains(ips, instance) {
 			continue

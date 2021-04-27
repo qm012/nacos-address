@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github/qm012/nacos-adress/global"
+	"github/qm012/nacos-adress/model"
 	"go.uber.org/zap"
 	"net"
 	"net/http"
@@ -21,16 +22,16 @@ func GinLogger() gin.HandlerFunc {
 		query := c.Request.URL.RawQuery
 		c.Next()
 
-		cost := time.Until(start)
+		cost := time.Since(start)
 		global.Log.Info(path,
+			zap.Duration("cost", cost),
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
 			zap.String("path", path),
 			zap.String("query", query),
 			zap.String("ip", c.ClientIP()),
-			zap.String("user-agent", c.Request.UserAgent()),
 			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
-			zap.Duration("cost", cost),
+			zap.String("user-agent", c.Request.UserAgent()),
 		)
 	}
 }
@@ -58,7 +59,8 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 						zap.String("request", string(httpRequest)),
 					)
 					// If the connection is dead, we can't write a status to it.
-					c.Error(err.(error)) // nolint: errcheck
+					//c.Error(err.(error)) // nolint: errcheck
+					c.JSON(http.StatusOK, model.NewFailedResult(err.(error)))
 					c.Abort()
 					return
 				}
@@ -75,7 +77,10 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 						zap.String("request", string(httpRequest)),
 					)
 				}
-				c.AbortWithStatus(http.StatusInternalServerError)
+				//c.AbortWithStatus(http.StatusInternalServerError)
+				c.JSON(http.StatusOK, model.NewFailedResult(err.(error)))
+				c.Abort()
+				return
 			}
 		}()
 		c.Next()

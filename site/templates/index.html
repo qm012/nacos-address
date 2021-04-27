@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nacos-address index</title>
+    <link rel="shortcut icon" href="/static/img/nacos-home.png">
+</head>
+<script type="text/javascript" src="/static/js/index.js"></script>
+<body onload="init()">
+
+<div style="float: left;">
+    <p style="text-align: center">nacos-address list</p>
+    <table style="width: 350px;">
+        <thead>
+        <tr>
+            <th>number</th>
+            <th>IP address</th>
+            <th>operate</th>
+        </tr>
+        </thead>
+        <tbody id="bodylist">
+        </tbody>
+    </table>
+</div>
+
+{{/*login*/}}
+<div style="float: left;margin-left: 20px" id="inputinfo">
+    <div>
+        username:<input type="text" id="username">
+    </div>
+    <div>
+        password:<input type="text" id="password">
+    </div>
+    <div style="margin-top: 15px;">
+        <button type="button" style="height: 20px" onclick="loginClick()">Login</button>
+    </div>
+</div>
+<div style="float: left;margin-left: 20px" id="operateinfo">
+    <div style="float: left;margin-left: 20px">
+        <button type="button" style="margin-top: 20px;margin-bottom: 20px;" onclick="deleteAll()">Delete All Data
+        </button>
+    </div>
+    <div style="margin-bottom: 20px">
+    <textarea id="text" rows="3" cols="20" style="margin: 0px; height: 173px; width: 403px;">
+#it is example ip list: form '\n' the end
+192.168.16.101:8848
+192.168.16.102
+192.168.16.104,192.168.16.106
+192.168.16.103</textarea>
+    </div>
+    <div>
+        <button type="button" style="margin-bottom: 20px;" onclick="createIps()">Create</button>
+    </div>
+</div>
+<div style="float: left;margin-left: 50px">
+    Error message Tips:
+    <div id="message" style="display:block;margin-top: 10px"></div>
+</div>
+
+</body>
+</html>
