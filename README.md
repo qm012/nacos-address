@@ -1,6 +1,6 @@
 # VIP address service center of Nacos single machine / cluster
 
-See the [中文文档](https://github.com/qm0123/nacos-address/blob/master/README-zh.md) for Chinese readme.
+See the [中文文档](https://github.com/qm012/nacos-address/blob/master/README-zh.md) for Chinese readme.
 
 ## Introduction
 
