@@ -28,7 +28,7 @@ func Routers() *gin.Engine {
 	r.Use(middleware.GinLogger(), middleware.GinRecovery(true))
 	r.NoRoute(func(ctx *gin.Context) {
 		err := errors.New("api no correct")
-		ctx.JSON(http.StatusOK, model.NewFailedResult(err))
+		ctx.JSON(http.StatusNotFound, model.NewFailedResult(err))
 	})
 
 	// public api

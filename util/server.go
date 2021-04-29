@@ -31,13 +31,13 @@ func GetStorageModel() StorageModel {
 
 func getStandaloneMode() bool {
 
-	standalone := os.Getenv("standalone")
+	standalone := os.Getenv("STANDALONE")
 	if len(standalone) == 0 {
 		return global.Server.Mode.Standalone
 	}
 	alone, err := strconv.ParseBool(standalone)
 	if err != nil {
-		global.Log.Info("Get env standalone parse", zap.Error(err))
+		global.Log.Info("Get env STANDALONE parse", zap.Error(err))
 		return true
 	}
 	return alone

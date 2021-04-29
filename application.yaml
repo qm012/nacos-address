@@ -6,7 +6,7 @@ mode:
 
 # login account: Operation API(create/delete data)
 account:
-  username: nacos2
+  username: nacos
   password: nacos
 
 # jwt params
@@ -25,7 +25,7 @@ zap:
 
 # redis link params,
 #   cluster running,must be setting here
-#   standalone running, If redis is set,it will be stored in redis,otherwise it will be stored in memory
+#   standalone running, If redis is set,it will be stored in redis,otherwise it will be stored in memory or file
 
 #redis:
 #  address: 17.0.0.1:6379

@@ -30,7 +30,7 @@ func (s *standalone) watchFile() {
 	for {
 		file, exist := util.ExistFile()
 		if !exist {
-			global.Log.Error("file cluster.conf not exists,use cache mode")
+			global.Log.Info("file cluster.conf not exists,use cache mode")
 			return
 		}
 		<-ticker.C
