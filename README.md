@@ -71,7 +71,7 @@ In the 'releases' page, select the corresponding operating system compressed pac
  
  ### docker
  
-1. Search for and install Nacos address in dockerhub
+1. Search for and install [nacos-address](https://registry.hub.docker.com/repository/docker/qm012/nacos-address) in dockerhub
 
 2. Docker-compose mode can also be used
 

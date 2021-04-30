@@ -55,7 +55,7 @@
 
 ### docker方式使用
 
-1. 在`dockerhub`中搜索nacos-address使用并安装
+1. 在`dockerhub`中搜索 [nacos-address](https://registry.hub.docker.com/repository/docker/qm012/nacos-address) 使用并安装
 2. 也可以使用docker-compose方式
        
 ## nacos服务端和客户端配置部署

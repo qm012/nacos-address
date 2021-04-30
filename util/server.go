@@ -35,7 +35,7 @@ func getStandaloneMode() bool {
 
 	mode := os.Getenv("APP_MODE")
 	if len(mode) == 0 {
-		return global.Server.App.Mode == Standalone
+		return global.Server.App.Mode != Standalone
 	}
 	return mode == Standalone
 }
