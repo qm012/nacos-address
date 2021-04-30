@@ -1,7 +1,7 @@
 package config
 
 type Server struct {
-	Mode
+	App
 	Zap
 	Redis
 	Account

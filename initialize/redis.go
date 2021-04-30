@@ -12,7 +12,7 @@ func InitRedis() {
 		global.Log.Info("redis no setting,use cache model storage")
 		return
 	}
-	redisConfig := global.Server.Redis
+	redisConfig := util.GetRedisConfig()
 	global.Rdb = redis.NewClient(&redis.Options{
 		Addr:     redisConfig.Address,
 		Password: redisConfig.Password,

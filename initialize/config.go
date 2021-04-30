@@ -10,7 +10,7 @@ import (
 )
 
 func InitServerConfig() {
-	file, err := os.Open("./application.yaml")
+	file, err := os.Open("./config/application.yaml")
 	if err != nil {
 		panic(fmt.Sprintf("init config file err: %v", err.Error()))
 	}

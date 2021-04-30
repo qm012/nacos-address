@@ -12,7 +12,7 @@ import (
 )
 
 func ExistFile() (*os.File, bool) {
-	filePath := "./cluster.conf"
+	filePath := "./config/cluster.conf"
 	_, err := os.Lstat(filePath)
 	if err != nil {
 		global.Log.Debug("file not exists")
@@ -40,7 +40,7 @@ func ReplaceClusterFile(file *os.File, ips []string) error {
 		}
 	}
 
-	if err := os.Truncate("./cluster.conf", 0); err != nil {
+	if err := os.Truncate("./config/cluster.conf", 0); err != nil {
 		global.Log.Error("file truncate failed", zap.Error(err))
 		return err
 	}
@@ -50,8 +50,19 @@ func ReplaceClusterFile(file *os.File, ips []string) error {
 
 func WriteClusterConf(file *os.File, ips []string) (err error) {
 	defer file.Close()
+	all, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+
+	var first = strings.HasSuffix(string(all), "\n")
+
 	for _, v := range ips {
-		ip := fmt.Sprintf("%v\n", v)
+		var ip = fmt.Sprintf("%s\n", v)
+		if !first {
+			ip = fmt.Sprintf("\n%s\n", v)
+			first = true
+		}
 		_, err := file.WriteString(ip)
 		if err != nil {
 			global.Log.Error("write file failed", zap.String("err", err.Error()))

@@ -39,9 +39,9 @@ we are also welcome to use, suggest and contribute. If it is helpful or helpful 
      
  | Parameter name | meaning | Optional value | Default value |
  | ------------ | ------------ | ------------ | ------------ |
- | STANDALONE       | Stand alone mode or not  | true/false | true |
- | ACCOUNT_USERNAME | Operation API username   | NULL       | nacos |
- | ACCOUNT_PASSWORD | Operation API password   | NULL       | nacos |
+ | APP_MODE         | application mode         | cluster/standalone | true |
+ | ACCOUNT_USERNAME | Operation API username   | NULL               | nacos |
+ | ACCOUNT_PASSWORD | Operation API password   | NULL               | nacos |
 
   * nacos-address Data source parameters
   
@@ -52,12 +52,12 @@ we are also welcome to use, suggest and contribute. If it is helpful or helpful 
       
  ### Mode explain 
  
- 1. standalone (environment or (yaml)model.standalone=true) default
+ 1. standalone (environment or (yaml)app.model=standalone) default
     1. set redis:   redis store data
     2. no set redis: 
         1. `cluster.conf`file exists     :Read from file (real time read at two second intervals)
         2. `cluster.conf`file not exists :Cache stores data (after the lifecycle of data ends in the current process)
-2. cluster(environment or (yaml)model.standalone=false)must set redis
+2. cluster(environment or (yaml)app.model=cluster)must set redis
     1. The data is stored in redis
     2. No matter whether it runs in stand-alone or cluster mode, 
     redis is equivalent to a cluster. Cluster mode only makes a mandatory verification,

@@ -1,5 +1,5 @@
 package config
 
-type Mode struct {
-	Standalone bool `yaml:"standalone"`
+type App struct {
+	Mode string `yaml:"mode"`
 }

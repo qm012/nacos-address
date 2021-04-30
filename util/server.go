@@ -1,8 +1,8 @@
 package util
 
 import (
+	"github/qm012/nacos-adress/config"
 	"github/qm012/nacos-adress/global"
-	"go.uber.org/zap"
 	"os"
 	"strconv"
 )
@@ -12,6 +12,8 @@ type StorageModel int8
 const (
 	StorageModelRedis StorageModel = iota
 	StorageModelCache
+	Cluster    = "cluster"
+	Standalone = "standalone"
 )
 
 var (
@@ -31,16 +33,11 @@ func GetStorageModel() StorageModel {
 
 func getStandaloneMode() bool {
 
-	standalone := os.Getenv("STANDALONE")
-	if len(standalone) == 0 {
-		return global.Server.Mode.Standalone
+	mode := os.Getenv("APP_MODE")
+	if len(mode) == 0 {
+		return global.Server.App.Mode == Standalone
 	}
-	alone, err := strconv.ParseBool(standalone)
-	if err != nil {
-		global.Log.Info("Get env STANDALONE parse", zap.Error(err))
-		return true
-	}
-	return alone
+	return mode == Standalone
 }
 
 func IsSetRedis() bool {
@@ -77,4 +74,25 @@ func VerifyAccount(username, password string) bool {
 	}
 	return accountUsername == username &&
 		accountPassword == password
+}
+
+func GetRedisConfig() config.Redis {
+	rdc := config.Redis{}
+	addr := os.Getenv("REDIS_HOST")
+	if len(addr) == 0 {
+		return global.Server.Redis
+	}
+
+	password := os.Getenv("REDIS_PASSWORD")
+	var db int
+	redisDb := os.Getenv("REDIS_DB")
+	if len(redisDb) != 0 {
+		if atoi, err := strconv.Atoi(redisDb); err == nil {
+			db = atoi
+		}
+	}
+	rdc.Address = addr
+	rdc.Password = password
+	rdc.DB = db
+	return rdc
 }

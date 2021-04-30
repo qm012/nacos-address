@@ -28,9 +28,9 @@
      
  | 参数名 | 含义 | 可选值 | 默认值 |
  | ------------ | ------------ | ------------ | ------------ |
- | STANDALONE       | 是否单机模式  | true/false | true  |
- | ACCOUNT_USERNAME | 操作api用户名 | NULL       | nacos |
- | ACCOUNT_PASSWORD | 操作api密码   | NULL       | nacos |
+ | APP_MODE         | 应用模式  | cluster/standalone | true  |
+ | ACCOUNT_USERNAME | 操作api用户名 | NULL           | nacos |
+ | ACCOUNT_PASSWORD | 操作api密码   | NULL           | nacos |
 
   * nacos-address数据源参数
     * 默认以`application.conf`文件为准
@@ -38,12 +38,12 @@
 
 ## 模式说明
 
- 1. 单机 (environment或model.standalone=true)默认
+ 1. 单机 (environment或app.model=standalone)默认
     1. 配置redis:   redis存储数据
     2. 不配置redis: 
         1. `cluster.conf`文件存在   :从文件中读取操作(两秒钟间隔实时读取)
         2. `cluster.conf`文件不存在 :Cache存储数据(数据的生命周期到当前进程结束后)
-2. 集群(environment或model.standalone=false)必须配置redis
+2. 集群(environment或app.model=cluster)必须配置redis
     1. 数据在redis中存储
     2. 无论是否单机或集群模式运行,配置了redis,就相当于一个集群。集群模式只是做了个强制校验必须连接redis
 

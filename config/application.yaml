@@ -1,8 +1,8 @@
 # single machine running or not
-#   true: standalone running
-#   false: cluster running (must need setting redis config)
-mode:
-  standalone: true
+#   standalone: standalone running
+#   cluster:    cluster running (must need setting redis config)
+app:
+  mode: standalone
 
 # login account: Operation API(create/delete data)
 account:
@@ -28,6 +28,6 @@ zap:
 #   standalone running, If redis is set,it will be stored in redis,otherwise it will be stored in memory or file
 
 #redis:
-#  address: 17.0.0.1:6379
+#  address: 127.0.0.1:6379
 #  password: 123456
 #  db: 0
