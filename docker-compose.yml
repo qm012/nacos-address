@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:latest
+    networks:
+      - nacos-address
+  nacos-address:
+    image: qm012/nacos-address:latest
+    ports:
+      - 8849:8849
+    depends_on:
+      - redis
+    links:
+      - redis
+    networks:
+      - nacos-address
+    volumes:
+      - nacos-address-config:/home/nacos-address/config
+      - nacos-address-logs:/home/nacos-address/logs
+    environment:
+      APP_MODE: standalone
+      ACCOUNT_USERNAME: nacos
+      ACCOUNT_PASSWORD: nacos
+
+volumes:
+  nacos-address-config:
+  nacos-address-logs:
+
+networks:
+  nacos-address:
+    driver: bridge
