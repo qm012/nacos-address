@@ -2,7 +2,7 @@ FROM alpine:latest
 
 MAINTAINER urobot@qq.com
 
-ENV VERSION="1.1.1"
+ENV VERSION="1.1.2"
 
 WORKDIR /home/nacos-address/
 

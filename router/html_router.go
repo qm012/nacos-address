@@ -9,6 +9,5 @@ func InitHtmlRouter(router *gin.RouterGroup) {
 	html := router.Group("")
 	{
 		html.GET("/index", api.Index)
-		html.GET("/list", api.DataList)
 	}
 }

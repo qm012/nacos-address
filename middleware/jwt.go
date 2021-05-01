@@ -18,7 +18,7 @@ func JwtAuth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := ctx.GetHeader("Authorization")
 
-		if len(authHeader) == 0 && len(BearerSchema) == len(authHeader) {
+		if len(authHeader) == 0 || len(BearerSchema)-1 == len(authHeader) {
 			err := errors.New("authorization is null")
 			ctx.JSON(http.StatusOK, model.NewFailedResult(err))
 			ctx.Abort()
