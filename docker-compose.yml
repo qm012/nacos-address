@@ -3,10 +3,12 @@ version: '3'
 services:
   redis:
     image: redis:latest
+    restart: always
     networks:
       - nacos-address
   nacos-address:
     image: qm012/nacos-address:latest
+    restart: always
     ports:
       - 8849:8849
     depends_on:
@@ -22,6 +24,9 @@ services:
       APP_MODE: standalone
       ACCOUNT_USERNAME: nacos
       ACCOUNT_PASSWORD: nacos
+      REDIS_HOST: "redis:6379"
+      REDIS_PASSWORD: ""
+      REDIS_DB: 0
 
 volumes:
   nacos-address-config:
@@ -29,4 +34,3 @@ volumes:
 
 networks:
   nacos-address:
-    driver: bridge

@@ -42,7 +42,10 @@ we are also welcome to use, suggest and contribute. If it is helpful or helpful 
  | APP_MODE         | application mode         | cluster/standalone | true |
  | ACCOUNT_USERNAME | Operation API username   | NULL               | nacos |
  | ACCOUNT_PASSWORD | Operation API password   | NULL               | nacos |
-
+ | REDIS_HOST       | redis address            | NULL               | ""    |
+ | REDIS_PASSWORD   | redis password           | NULL               | ""    |
+ | REDIS_DB         | redis select             | NULL               | 0     |
+ 
   * nacos-address Data source parameters
   
     * By default, the 'application. Conf' file will prevail
@@ -176,8 +179,11 @@ server {
 
 ###  Login get Token
 1. Request example
-```
-curl http://127.0.0.1:8849/login -X POST -H "Content-Type:application/json" -d '{"username":"nacos","password":"nacos"}'
+```shell
+curl http://127.0.0.1:8849/login \
+ -X POST \
+ -H "Content-Type:application/json" \
+ -d '{"username":"nacos","password":"nacos"}'
 ```
 2. Return to example
 ```
@@ -191,7 +197,7 @@ curl http://127.0.0.1:8849/login -X POST -H "Content-Type:application/json" -d '
 ### Query Nacos service address list - client
 
 1. Request example
-```
+```shell
 curl http://127.0.0.1:8849/nacos/serverlist
 ```
 2. Return to example
@@ -205,7 +211,7 @@ curl http://127.0.0.1:8849/nacos/serverlist
 ### Query Nacos service address list - server
 
 1. Request example
-```
+```shell
 curl http://127.0.0.1:8849/nacos/server/serverlist
 ```
 2. Return to example
@@ -220,8 +226,12 @@ curl http://127.0.0.1:8849/nacos/server/serverlist
 ### Add Nacos server address
 
 1. Request example
-```
-curl http://127.0.0.1:8849/nacos/serverlist -X POST -H "Content-Type:application/json" -H "Authorization:Bearer token-value" -d '{"clusterIps": ["127.0.0.1","127.0.0.2","127.0.0.3"]}' -v
+```shell
+curl http://127.0.0.1:8849/nacos/serverlist \
+ -X POST \
+ -H "Content-Type:application/json" \
+ -H "Authorization:Bearer token-value" \
+ -d '{"clusterIps": ["127.0.0.1","127.0.0.2","127.0.0.3"]}' -v
 ```
 2. Return to example
 ```
@@ -235,8 +245,12 @@ curl http://127.0.0.1:8849/nacos/serverlist -X POST -H "Content-Type:application
 ### Remove Nacos server address
 
 1. Request example
-```
-curl http://127.0.0.1:8849/nacos/serverlist -X DELETE -H "Content-Type:application/json" -H "Authorization:Bearer token-value" -d '{"clusterIps": ["127.0.0.1"]}' -v
+```shell
+curl http://127.0.0.1:8849/nacos/serverlist \
+ -X DELETE \
+ -H "Content-Type:application/json" \
+ -H "Authorization:Bearer token-value" \
+ -d '{"clusterIps": ["127.0.0.1"]}' -v
 ```
 
 2. Return to example
@@ -251,8 +265,11 @@ curl http://127.0.0.1:8849/nacos/serverlist -X DELETE -H "Content-Type:applicati
 ### Clear Nacos server address
 
 1. Request example
-```
-curl http://127.0.0.1:8849/nacos/serverlist/all -X DELETE -H "Content-Type:application/json" -H "Authorization:Bearer token-value" -v
+```shell
+curl http://127.0.0.1:8849/nacos/serverlist/all \
+ -X DELETE \
+ -H "Content-Type:application/json" \
+ -H "Authorization:Bearer token-value" -v
 ```
 2. Return to example
 ```

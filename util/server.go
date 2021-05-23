@@ -3,6 +3,7 @@ package util
 import (
 	"github/qm012/nacos-adress/config"
 	"github/qm012/nacos-adress/global"
+	"go.uber.org/zap"
 	"os"
 	"strconv"
 )
@@ -32,8 +33,8 @@ func GetStorageModel() StorageModel {
 }
 
 func getStandaloneMode() bool {
-
 	mode := os.Getenv("APP_MODE")
+	global.Log.Info("get mod value", zap.String("APP_MODE", mode))
 	if len(mode) == 0 {
 		if len(global.Server.App.Mode) == 0 {
 			return true
@@ -44,6 +45,9 @@ func getStandaloneMode() bool {
 }
 
 func IsSetRedis() bool {
+	if len(os.Getenv("REDIS_HOST")) != 0 {
+		return true
+	}
 	return len(global.Server.Redis.Address) != 0
 }
 
@@ -80,12 +84,8 @@ func VerifyAccount(username, password string) bool {
 }
 
 func GetRedisConfig() config.Redis {
-	rdc := config.Redis{}
+	rds := config.Redis{}
 	addr := os.Getenv("REDIS_HOST")
-	if len(addr) == 0 {
-		return global.Server.Redis
-	}
-
 	password := os.Getenv("REDIS_PASSWORD")
 	var db int
 	redisDb := os.Getenv("REDIS_DB")
@@ -93,9 +93,12 @@ func GetRedisConfig() config.Redis {
 		if atoi, err := strconv.Atoi(redisDb); err == nil {
 			db = atoi
 		}
+	} else {
+		db = global.Server.Redis.DB
 	}
-	rdc.Address = addr
-	rdc.Password = password
-	rdc.DB = db
-	return rdc
+
+	rds.Address = If(len(addr) != 0, addr, global.Server.Redis.Address).(string)
+	rds.Password = If(len(password) != 0, password, global.Server.Redis.Password).(string)
+	rds.DB = db
+	return rds
 }

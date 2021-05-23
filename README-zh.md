@@ -31,6 +31,9 @@
  | APP_MODE         | 应用模式  | cluster/standalone | true  |
  | ACCOUNT_USERNAME | 操作api用户名 | NULL           | nacos |
  | ACCOUNT_PASSWORD | 操作api密码   | NULL           | nacos |
+ | REDIS_HOST       | redis地址     | NULL           | ""    |
+ | REDIS_PASSWORD   | redis密码     | NULL           | ""    |
+ | REDIS_DB         | redis库       | NULL           | 0     |
 
   * nacos-address数据源参数
     * 默认以`application.conf`文件为准
@@ -151,8 +154,11 @@ server {
 ###  登录获取Token
 
 1. 请求示例
-```
-curl http://127.0.0.1:8849/login -X POST -H "Content-Type:application/json" -d '{"username":"nacos","password":"nacos"}'
+```shell
+curl http://127.0.0.1:8849/login \
+ -X POST \
+ -H "Content-Type:application/json" \
+ -d '{"username":"nacos","password":"nacos"}'
 ```
 2. 返回示例
 ```
@@ -195,8 +201,12 @@ curl http://127.0.0.1:8849/nacos/server/serverlist
 ### 增加nacos服务端地址
 
 1. 请求示例
-```
-curl http://127.0.0.1:8849/nacos/serverlist -X POST -H "Content-Type:application/json" -H "Authorization:Bearer token-value" -d '{"clusterIps": ["127.0.0.1","127.0.0.2","127.0.0.3"]}' -v
+```shell
+curl http://127.0.0.1:8849/nacos/serverlist \
+ -X POST \
+ -H "Content-Type:application/json" \
+ -H "Authorization:Bearer token-value" \
+ -d '{"clusterIps": ["127.0.0.1","127.0.0.2","127.0.0.3"]}' -v
 ```
 2. 返回示例
 ```
@@ -210,8 +220,12 @@ curl http://127.0.0.1:8849/nacos/serverlist -X POST -H "Content-Type:application
 ### 移除nacos服务端地址
 
 1. 请求示例
-```
-curl http://127.0.0.1:8849/nacos/serverlist -X DELETE -H "Content-Type:application/json" -H "Authorization:Bearer token-value" -d '{"clusterIps": ["127.0.0.1"]}' -v
+```shell
+curl http://127.0.0.1:8849/nacos/serverlist \
+ -X DELETE \
+ -H "Content-Type:application/json" \
+ -H "Authorization:Bearer token-value" \
+ -d '{"clusterIps": ["127.0.0.1"]}' -v
 ```
 
 2. 返回示例
@@ -226,8 +240,11 @@ curl http://127.0.0.1:8849/nacos/serverlist -X DELETE -H "Content-Type:applicati
 ### 清空nacos服务端地址
 
 1. 请求示例
-```
-curl http://127.0.0.1:8849/nacos/serverlist/all -X DELETE -H "Content-Type:application/json" -H "Authorization:Bearer token-value" -v
+```shell
+curl http://127.0.0.1:8849/nacos/serverlist/all \
+ -X DELETE \
+ -H "Content-Type:application/json" \
+ -H "Authorization:Bearer token-value" -v
 ```
 2. 返回示例
 ```
