@@ -59,7 +59,7 @@
 ### docker方式使用
 
 1. 在`dockerhub`中搜索 [nacos-address](https://registry.hub.docker.com/repository/docker/qm012/nacos-address) 使用并安装
-2. 也可以使用docker-compose方式
+2. 也可以使用[docker-compose](https://github.com/qm012/nacos-address/blob/v1.1.3/docker-compose.yml) 方式
        
 ## nacos服务端和客户端配置部署
 
@@ -149,7 +149,7 @@ server {
 
 ## Open API 指南
 
-### 界面操作地址: http://127.0.0.1:8849/index，根据页面提示操作
+### 界面操作地址: http://127.0.0.1:8849/index 根据页面提示操作
 
 ###  登录获取Token
 

@@ -76,7 +76,7 @@ In the 'releases' page, select the corresponding operating system compressed pac
  
 1. Search for and install [nacos-address](https://registry.hub.docker.com/repository/docker/qm012/nacos-address) in dockerhub
 
-2. Docker-compose mode can also be used
+2. [Docker-compose](https://github.com/qm012/nacos-address/blob/v1.1.3/docker-compose.yml) mode can also be used
 
 ## Configuration and deployment of Nacos server and client
 
@@ -176,6 +176,8 @@ server {
    there is no need to worry about the need to update all services for the expansion of the registration center and service center.
 
 ## Open API Guide
+
+### Nacos-address console link: http://127.0.0.1:8849/index  Follow the prompts on the page
 
 ###  Login get Token
 1. Request example
