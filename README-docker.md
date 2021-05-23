@@ -23,7 +23,7 @@ docker run -d --name nacos-address \
  -v nacos-address-logs:/home/nacos-address/logs \
  -p 8849:8849 \
  -e APP_MODE=standalone \
- -e REDIS_HOST="" \
+ -e REDIS_HOST="redis:6379" \
  -e REDIS_PASSWORD="" \
  -e REDIS_DB=0 \
  --link redis \
@@ -68,7 +68,6 @@ volumes:
 
 networks:
   nacos-address:
-    driver: bridge
 ```
 
 `
