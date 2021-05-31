@@ -83,7 +83,7 @@ docker-compose up
  | ACCOUNT_PASSWORD | Operation API password   | NULL               | nacos |
  | REDIS_HOST       | redis address            | NULL               | ""    |
  | REDIS_PASSWORD   | redis password           | NULL               | ""    |
- | REDIS_DB         | redis select             | NULL               | 0     |
+ | REDIS_DB         | redis select index       | NULL               | 0     |
  
 ### Refer to application.yaml for other startup parameters
 

@@ -44,7 +44,7 @@ we are also welcome to use, suggest and contribute. If it is helpful or helpful 
  | ACCOUNT_PASSWORD | Operation API password   | NULL               | nacos |
  | REDIS_HOST       | redis address            | NULL               | ""    |
  | REDIS_PASSWORD   | redis password           | NULL               | ""    |
- | REDIS_DB         | redis select             | NULL               | 0     |
+ | REDIS_DB         | redis select index       | NULL               | 0     |
  
   * nacos-address Data source parameters
   
